@@ -1,0 +1,712 @@
+---
+lol:
+  version: "2.0"
+  id: "PROJ-FREEPLANE-CDE-001"
+  title: "Setup Fork Freeplane per Rappresentazione Entità CdE con Mermaid"
+  created: "2025-11-01T13:07:00+01:00"
+  domain: "rappresentazione-tools"
+  type: "cde-progetto"
+
+agents:
+  - type: bio
+    id: "Luqa"
+    role: "Program Manager & Architect"
+    context: "Necessità rappresentazione radiale complessità con pattern focus-centrico per entità CdE"
+
+  - type: non-bio
+    id: "Claude Code"
+    role: "Developer & Architecture Explorer"
+    context: "Prima sessione su progetto LESS-ON-Learning, configurazione tool base"
+    capabilities: ["code exploration", "git operations", "architecture analysis", "diagram generation"]
+    limits: ["no private repo access without credentials", "token-based memory"]
+
+states:
+  initial:
+    timestamp: "2025-11-01T13:07:00"
+    cognitive:
+      - "Repository vuoto LESS-ON-Learning"
+      - "Necessità fork Freeplane per visualizzazione CdE"
+      - "Desiderio supporto Markdown + Mermaid per note"
+    technical:
+      - "Repository GitHub vuoto"
+      - "Nessun codice Freeplane"
+      - "Branch claude/freeplane-fork-entities-011CUhDn2McmHFq3FUdsohGG"
+
+  final:
+    timestamp: "2025-11-01T14:30:00"
+    cognitive:
+      - "Comprensione profonda architettura Freeplane (plugin system, OSGi, content transformers)"
+      - "Visione chiara pattern focus-centrico per navigazione complessità"
+      - "Distinzione rappresentazione temporale (narrazione) vs strutturale (radiale)"
+      - "Consapevolezza differenza comprensione globale (agente) vs working memory (bio)"
+    technical:
+      - "Freeplane 1.12.x importato e riorganizzato in /rappresentazione/tools/freeplane/"
+      - "8 diagrammi Mermaid architettura OOP completi"
+      - "Mappa esempio focus-centrica creata"
+      - "Documentazione multilivello (README root, rappresentazione/README.md)"
+      - "Repository strutturato per multi-repo project"
+      - "Formalismo CdE v2.0 acquisito"
+
+nodes:
+  - id: "N1"
+    title: "Import Codebase Freeplane da Repository Ufficiale"
+    input_state: "Repository vuoto, Freeplane disponibile su GitHub pubblico"
+    actions:
+      - "git remote add freeplane https://github.com/freeplane/freeplane.git"
+      - "git fetch freeplane (18.309 commit scaricati)"
+      - "git merge freeplane/1.12.x con risoluzione conflitti README e .gitattributes"
+      - "git push branch con retry automatico (infrastruttura robusta)"
+    output_state: "Codebase Freeplane 1.12.x completo nel repository"
+    learning: "Git merge con --allow-unrelated-histories permette di importare intere storie di progetti esterni. Retry automatico su push gestisce network issues gracefully."
+    emotional_shift: "Incertezza su meccanica → Fiducia in processo"
+    roi:
+      type: "pratico"
+      value: "Base codice completa per fork specializzata"
+      unit: "18.309 commit storici + codebase funzionante"
+
+  - id: "N2"
+    title: "Esplorazione Architettura Note Editor e Plugin System"
+    input_state: "Codice Freeplane disponibile, struttura sconosciuta"
+    actions:
+      - "Task con Explore agent: ricerca sistematica file chiave"
+      - "Identificazione NoteModel, NotePanel, TextController"
+      - "Scoperta MarkdownRenderer con PlantUML già integrato!"
+      - "Analisi pattern: IContentTransformer, IEditBaseCreator"
+      - "Mappatura flussi: edit (user → editor) e rendering (content → display)"
+    output_state: "Comprensione completa architettura plugin ed estensibilità"
+    learning: "Freeplane ha plugin Markdown già funzionante con PlantUML integrato. Pattern di estensione chiaro: AbstractContentTransformer + IEditBaseCreator. Possiamo copiare pattern PlantUML per Mermaid."
+    breakthrough: true
+    critical: true
+    roi:
+      type: "cognitivo"
+      value: "Scoperta infrastruttura già pronta per integrazione Mermaid"
+      unit: "giorni di sviluppo risparmiati"
+    nodes:
+      - id: "N2.1"
+        title: "Identificazione Plugin Markdown Esistente"
+        actions: ["Lettura MarkdownRenderer.java:36-134", "Analisi Activator.java:38-100"]
+        deliverable: "Comprensione meccanismo estensioni"
+
+      - id: "N2.2"
+        title: "Pattern PlantUML come Template"
+        actions: ["Studio PlantUMLExtension pattern", "Identificazione Extension API markedj"]
+        learning: "addExtension(extension) permette plugin modulari per diagrammi"
+
+  - id: "N3"
+    title: "Generazione Diagrammi Mermaid Architettura OOP"
+    input_state: "Architettura compresa, necessità visualizzazione condivisa"
+    actions:
+      - "Creazione FREEPLANE_ARCHITECTURE.md con 8 diagrammi"
+      - "1. Class Diagram: Note Editor core"
+      - "2. Class Diagram: Content Transformers"
+      - "3. Component Diagram: Plugin System OSGi"
+      - "4. Sequence Diagram: Edit Flow"
+      - "5. Sequence Diagram: Rendering Flow"
+      - "6. ER Diagram: Data Model"
+      - "7. Design Patterns"
+      - "8. Proposed CdE Architecture"
+    output_state: "Documentazione visuale completa architettura Freeplane"
+    deliverable: "rappresentazione/FREEPLANE_ARCHITECTURE.md"
+    learning: "Diagrammi Mermaid permettono comunicazione architettura complessa in modo accessibile. GitHub renderizza automaticamente."
+    roi:
+      type: "comunicativo"
+      value: "Riferimento visivo per sviluppo futuro"
+      unit: "8 diagrammi tecnici"
+
+  - id: "N4"
+    title: "Riorganizzazione Repository Multi-Progetto"
+    input_state: "Tutto in radice, disordinato"
+    actions:
+      - "Creazione struttura /rappresentazione/tools/freeplane/"
+      - "Spostamento tutti moduli Freeplane in sottodirectory"
+      - "Aggiornamento README root con mappa struttura"
+      - "Creazione rappresentazione/README.md in italiano"
+    output_state: "Repository organizzato per multi-cantiere"
+    learning: "Struttura multi-repo con hub centrale permette sviluppo indipendente cantieri mantenendo orientamento generale."
+    decision:
+      context: "Strategia organizzazione repository (mono-repo vs multi-repo)"
+      alternatives: ["Mono-repo tutto insieme", "Multi-repo con hub centrale", "Git submodules"]
+      chosen: "Multi-repo con hub centrale"
+      rationale: "CdE può evolvere indipendentemente, Freeplane fork resta tool separato, LESS-ON-Learning diventa mappa cantieri"
+    roi:
+      type: "organizzativo"
+      value: "Struttura scalabile per progetti multipli"
+      unit: "chiarezza navigazione"
+
+  - id: "N5"
+    title: "Creazione Mappa Esempio Pattern Focus-Centrico"
+    input_state: "Pattern navigazione descritto concettualmente"
+    actions:
+      - "Generazione freeplane-architecture-esempio.mm"
+      - "MarkdownRenderer come nodo centrale"
+      - "6 dimensioni radianti: Come si usa, Dove, Eredità, Dipendenze, Chi lo usa, Come modificare"
+      - "Color-coded edges per tipo relazione"
+      - "Drill-down gerarchico per dettagli"
+    output_state: "Esempio concreto pattern visualizzazione complessità"
+    deliverable: "rappresentazione/esempi-mappe/freeplane-architecture-esempio.mm"
+    learning: "Pattern focus-centrico richiede: 1) Nodo centrale chiaro 2) Dimensioni multiple radianti 3) Drill-down stratificato 4) Codifica visuale (colori, layout)"
+    critical: true
+    emotional_shift: "Concetto astratto → Prototipo concreto"
+
+  - id: "N6"
+    title: "Discussione Meta: Token vs Comprensione Globale"
+    input_state: "Curiosità su paradosso: agente assorbe repo ma chat si riempie velocemente"
+    actions:
+      - "Spiegazione Explore agent: lavora in contesto separato, ritorna summary compresso"
+      - "Analogia memoria semantica (so dove è) vs memoria di lavoro (testo letterale)"
+      - "Confronto con mente bio: non ricorda parola per parola ma sa dove cercare"
+    output_state: "Comprensione differenza working memory bio vs elaborazione agente"
+    learning: "Agenti hanno memoria semantica (indici, collegamenti) separata da working memory (conversazione). Mente bio fa lo stesso."
+
+  - id: "N7"
+    title: "Discussione: Rappresentazione Radiale vs Temporale"
+    input_state: "Luqa evidenzia: agente usa narrazione temporale, bio preferisce radiale"
+    actions:
+      - "Riconoscimento: ho narrato come 'film' (sequenza temporale)"
+      - "Luqa spiega: complessità non è temporale, dimensioni rilevanti sono: come si usa, dove si trova, come si modifica"
+      - "Freeplane permette rappresentazione radiale con focus dinamico"
+    output_state: "Consapevolezza limite narrazione sequenziale per complessità"
+    learning: "Narrazione temporale è naturale per agenti (causa-effetto) ma limitante per complessità. Rappresentazione radiale con dimensioni multiple è più congeniale a mente bio."
+    critical: true
+
+  - id: "N8"
+    title: "Introduzione CdE: Formalismo Interoperabilità Bio/Non-Bio"
+    input_state: "Luqa introduce concetto CdE: Contenitori di Esperienza"
+    actions:
+      - "CdE = Formalismo + Protocollo per rappresentare esperienze"
+      - "Doppio binario: Narrativa (bio) + Nodi strutturali (computazionale)"
+      - "Caso d'uso: navigazione codice con focus-centric pattern"
+      - "Generalizzazione: pattern applicabile a molte complessità"
+    output_state: "Visione CdE come sistema rappresentazione universale"
+    learning: "CdE combina narrativa (comprensione bio) con struttura a nodi (navigazione computazionale). Rappresentazione radiale con focus dinamico è pattern generalizzabile."
+    breakthrough: true
+
+  - id: "N9"
+    title: "Acquisizione Formalismo CdE v2.0"
+    input_state: "Specifiche CdE caricate in /rappresentazione/CdE protocollo/"
+    actions:
+      - "git pull per sincronizzare specifiche"
+      - "Lettura cde_schema_mermaid_v2.mermaid (class diagram OOP)"
+      - "Lettura cde_sessione_formalismo_v2_final.txt (esempio completo)"
+      - "Acquisizione struttura: agents, states, nodes, decisions, learning, protocol, resources, ROI, narrative, vocabulary, metrics, dashboard, mission, status"
+    output_state: "Comprensione completa formalismo CdE v2.0"
+    learning: "CdE è 'propriocezione cristallizzata': mappa del percorso che dice dove sei, quanto speso (effort), cosa guadagnato (ROI), dove puoi andare. Non è documentazione ma interfaccia operativa stratificata."
+    critical: true
+    breakthrough: true
+
+decisions:
+  - id: "D1"
+    date: "2025-11-01T13:15:00"
+    context: "Quale branch Freeplane importare"
+    alternatives: ["latest (main)", "1.12.x (stable)", "1.11.x (older stable)"]
+    chosen: "1.12.x"
+    rationale: "Branch stable recente, buon compromesso tra features e stabilità"
+    decided_by: "Claude Code (implicito)"
+    impact: "Base codice per fork"
+
+  - id: "D2"
+    date: "2025-11-01T13:30:00"
+    context: "Strategia organizzazione repository"
+    alternatives: ["Tutto in radice", "Multi-repo con hub centrale", "Git submodules"]
+    chosen: "Multi-repo con hub centrale"
+    rationale: "Permette evoluzione indipendente cantieri (CdE, Freeplane fork, etc.) mantenendo orientamento tramite README centrale"
+    decided_by: "Co-decisione Luqa-Claude"
+    impact: "Struttura scalabile per LESS-ON-Learning"
+
+  - id: "D3"
+    date: "2025-11-01T14:00:00"
+    context: "Approccio integrazione Mermaid"
+    alternatives: ["Opzione A: Estendere plugin esistente", "Opzione B: Nuovo plugin separato"]
+    chosen: "Opzione A (consigliata)"
+    rationale: "Plugin Markdown già ha pattern PlantUML. Copiare pattern è più veloce che nuovo plugin da zero."
+    decided_by: "Claude Code"
+    impact: "Roadmap sviluppo Mermaid integration"
+
+learning:
+  - id: "L1"
+    statement: "Git merge --allow-unrelated-histories permette importare interi progetti esterni mantenendo storia"
+    categoria: "tecnico"
+    validato: true
+    confidence: "consolidato"
+    fonte: "N1"
+
+  - id: "L2"
+    statement: "Freeplane ha architettura estensibile via OSGi con pattern chiaro: IContentTransformer + IEditBaseCreator"
+    categoria: "architetturale"
+    validato: true
+    confidence: "consolidato"
+    fonte: "N2"
+    impatto: "Design integrazione Mermaid"
+    critical: true
+
+  - id: "L3"
+    statement: "PlantUML già integrato in Freeplane Markdown plugin fornisce template per Mermaid"
+    categoria: "pratico"
+    validato: true
+    confidence: "consolidato"
+    fonte: "N2.2"
+    impatto: "Riduce effort sviluppo Mermaid"
+
+  - id: "L4"
+    statement: "Diagrammi Mermaid sono efficaci per comunicare architettura OOP complessa"
+    categoria: "comunicativo"
+    validato: true
+    confidence: "consolidato"
+    fonte: "N3"
+
+  - id: "L5"
+    statement: "Multi-repo con hub centrale bilancia indipendenza cantieri e orientamento generale"
+    categoria: "organizzativo"
+    validato: true
+    confidence: "consolidato"
+    fonte: "N4"
+    impatto: "Strategia LESS-ON-Learning"
+
+  - id: "L6"
+    statement: "Pattern focus-centrico richiede: nodo centrale, dimensioni radianti, drill-down, codifica visuale"
+    categoria: "design"
+    validato: true
+    confidence: "consolidato"
+    fonte: "N5"
+    critical: true
+
+  - id: "L7"
+    statement: "Agenti hanno memoria semantica (indici) separata da working memory (conversazione), come mente bio"
+    categoria: "meta-cognitivo"
+    validato: true
+    confidence: "consolidato"
+    fonte: "N6"
+
+  - id: "L8"
+    statement: "Rappresentazione radiale più congeniale a mente bio che narrazione sequenziale per complessità"
+    categoria: "design"
+    validato: true
+    confidence: "consolidato"
+    fonte: "N7"
+    impatto: "Focus su tool radiali (Freeplane) vs narrativi"
+    critical: true
+
+  - id: "L9"
+    statement: "CdE è propriocezione cristallizzata: mappa del percorso (dove sei, effort, ROI, dove vai)"
+    categoria: "filosofico"
+    validato: true
+    confidence: "consolidato"
+    fonte: "N8, N9"
+    impatto: "Comprensione natura CdE come interfaccia operativa"
+    critical: true
+
+protocol:
+  name: "Setup Fork Progetto Open Source per Specializzazione"
+  description: "Come importare, esplorare, riorganizzare codebase esistente per fork specializzata"
+  trigger: "Necessità fork progetto complesso per use case specifico"
+  steps:
+    - step: 1
+      action: "Import completo via git remote + fetch + merge --allow-unrelated-histories"
+      tipo: "setup"
+
+    - step: 2
+      action: "Esplorazione architettura con agent specializzato (Explore)"
+      tipo: "discovery"
+
+    - step: 3
+      action: "Generazione diagrammi architettura per comprensione condivisa"
+      tipo: "documentation"
+
+    - step: 4
+      action: "Riorganizzazione repository per separare fork da progetto principale"
+      tipo: "organization"
+
+    - step: 5
+      action: "Creazione esempi concreti pattern desiderato"
+      tipo: "prototyping"
+      expected_outcome: "Fork pronta per specializzazione con roadmap chiara"
+
+resources:
+  tools:
+    - id: "T1"
+      name: "Task tool - Explore agent"
+      type: "code-exploration"
+      purpose: "Ricerca sistematica codebase, analisi architettura"
+      usage: "subagent_type=Explore con prompt dettagliato"
+
+    - id: "T2"
+      name: "git"
+      type: "version-control"
+      purpose: "Import repository, branch management, merge"
+      usage: "remote, fetch, merge, push con retry"
+
+    - id: "T3"
+      name: "Mermaid"
+      type: "diagram-generation"
+      purpose: "Class diagrams, sequence diagrams, component diagrams"
+      usage: "Markdown code blocks renderizzati su GitHub"
+
+    - id: "T4"
+      name: "Freeplane"
+      type: "mindmap-editor"
+      purpose: "Rappresentazione radiale complessità"
+      location: "rappresentazione/tools/freeplane/"
+
+  prompts:
+    - id: "P1"
+      name: "Architecture Exploration Prompt"
+      type: "exploration"
+      content: "Prompt dettagliato per Explore agent: 'Find note editor, plugin system, extension points...'"
+      usage: "Analisi codebase sconosciuto"
+
+  templates:
+    - id: "T1"
+      name: "Focus-Centric Map Template"
+      type: "freeplane"
+      content: "Template .mm con nodo centrale + 6 dimensioni radianti"
+      location: "rappresentazione/esempi-mappe/freeplane-architecture-esempio.mm"
+
+  files:
+    - name: "FREEPLANE_ARCHITECTURE.md"
+      type: "documentation"
+      path: "rappresentazione/"
+      description: "8 diagrammi Mermaid architettura Freeplane"
+
+    - name: "cde_schema_mermaid_v2.mermaid"
+      type: "spec"
+      path: "rappresentazione/CdE protocollo/"
+      description: "Class diagram OOP CdE v2.0"
+
+    - name: "cde_sessione_formalismo_v2_final.txt"
+      type: "example-cde"
+      path: "rappresentazione/CdE protocollo/"
+      description: "Esempio completo CdE con tutti campi"
+
+  paths:
+    repo_root: "/home/user/LESS-ON-Learning/"
+    freeplane_fork: "rappresentazione/tools/freeplane/"
+    cde_specs: "rappresentazione/CdE protocollo/"
+    examples: "rappresentazione/esempi-mappe/"
+
+roi:
+  type: "composito"
+  description: "ROI multi-dimensionale sessione setup"
+  components:
+    - type: "pratico"
+      value: "Fork Freeplane operativa con 18.309 commit storici"
+      unit: "codebase completa"
+
+    - type: "cognitivo"
+      value: "Comprensione profonda architettura Freeplane + Pattern focus-centrico + Formalismo CdE"
+      unit: "3 framework mentali acquisiti"
+
+    - type: "comunicativo"
+      value: "8 diagrammi Mermaid + 1 mappa esempio + README multilivello"
+      unit: "documentazione condivisa"
+
+    - type: "organizzativo"
+      value: "Repository strutturato per multi-cantiere"
+      unit: "scalabilità futura"
+
+    - type: "temporale"
+      value: "PlantUML pattern esistente riduce effort Mermaid integration"
+      unit: "giorni sviluppo risparmiati"
+  measured_at: "2025-11-01T14:30:00"
+
+narrative:
+  content: |
+    # Il Viaggio: Da Repository Vuoto a Fork Freeplane con Visione CdE
+
+    ## L'Inizio: Una Domanda Semplice
+
+    Questa sessione è iniziata con una domanda diretta: "se io volessi partire da una fork di Freeplane e adattarla alla gestione di entità chiamate CdE, sarebbe possibile sostituire o affiancare note editor tinyHTML con un lettore/gestore markdown capace di gestire mermaid?"
+
+    Risposta immediata: "Sì, è assolutamente possibile!" Ma per dimostrarlo serviva il codice.
+
+    ## Import Freeplane: 18.309 Commit in Un Click
+
+    Il primo step è stato importare il repository ufficiale Freeplane. Non un semplice clone - un merge completo della storia:
+    - `git remote add freeplane` - segnalibro al repository ufficiale
+    - `git fetch freeplane` - download 18.309 commit (4.5 minuti)
+    - `git merge freeplane/1.12.x --allow-unrelated-histories` - fusione con risoluzione conflitti
+    - `git push` con retry automatico - 18.309 commit caricati su GitHub
+
+    Il repository vuoto ora conteneva l'intera storia di Freeplane. Fondamenta solide per la fork.
+
+    ## Esplorazione: Scoperta dell'Oro Nascosto
+
+    Con il Task tool e l'Explore agent ho scandagliato il codebase:
+    - `NoteModel` - come sono salvate le note
+    - `NotePanel` - l'interfaccia editor
+    - `MarkdownRenderer` - e qui la scoperta: **Freeplane ha già un plugin Markdown funzionante!**
+
+    E non solo: **PlantUML è già integrato** come extension del MarkdownRenderer. Il pattern per Mermaid era già lì, pronto da copiare.
+
+    Breakthrough moment: non dovevamo reinventare la ruota. Potevamo seguire l'esempio di PlantUML.
+
+    ## Visualizzazione: 8 Diagrammi per Capire l'Invisibile
+
+    L'architettura di Freeplane è complessa:
+    - OSGi framework modulare
+    - Plugin system con priority-based transformers
+    - Pattern Strategy + Chain of Responsibility
+    - Inheritance hierarchy (CdE → CdEProgetto, CdEBio, etc.)
+
+    Ho creato 8 diagrammi Mermaid in `FREEPLANE_ARCHITECTURE.md`:
+    1. Class Diagram - Note Editor core
+    2. Class Diagram - Content Transformers
+    3. Component Diagram - Plugin System OSGi
+    4. Sequence Diagram - Edit Flow
+    5. Sequence Diagram - Rendering Flow
+    6. ER Diagram - Data Model
+    7. Design Patterns
+    8. Proposed CdE Architecture
+
+    Committati e pushati su GitHub dove vengono renderizzati automaticamente. Architettura invisibile ora visibile.
+
+    ## Riorganizzazione: Dal Caos all'Ordine
+
+    Il repository aveva tutto nella radice - 24 directory Freeplane mescolate con file README e CLAUDE.md. Disordinato.
+
+    Luqa ha chiesto: "puoi creare una dir /rappresentazione/tools e ficcarci dentro tutte le cose di freeplane?"
+
+    Riorganizzazione:
+    ```
+    LESS-ON-Learning/
+    ├── rappresentazione/
+    │   ├── FREEPLANE_ARCHITECTURE.md (diagrammi)
+    │   ├── README.md (guida italiana)
+    │   └── tools/freeplane/ (tutto Freeplane qui)
+    ├── README.md (mappa generale)
+    └── CLAUDE.md (linee guida sviluppo)
+    ```
+
+    Strategia multi-repo con hub centrale: ogni cantiere (CdE, Freeplane fork, learning materials) può evolvere indipendentemente, ma c'è un punto di riferimento centrale.
+
+    ## Il Pattern Focus-Centrico: Da Teoria a Pratica
+
+    Luqa ha descritto il pattern di navigazione desiderato:
+    - Selezioni un nodo/classe → diventa il focus
+    - La vista si ri-centra su quel nodo
+    - Le relazioni si diramano radialmente
+    - Drill-down su livelli di dettaglio
+
+    Ho creato una mappa Freeplane di esempio (`freeplane-architecture-esempio.mm`):
+    - **MarkdownRenderer** come nodo centrale
+    - 6 dimensioni radianti:
+      - 🎯 Come si usa (API)
+      - 📂 Dove si trova (struttura)
+      - 🧬 Eredità (extends/implements)
+      - 🔗 Dipendenze (cosa usa)
+      - 👥 Chi lo usa (consumers)
+      - 🔧 Come modificare (per CdE)
+    - Color-coded edges (rosso, blu, verde, giallo, magenta, cyan)
+    - Nested nodes per drill-down
+
+    Pattern concreto, non solo concetto astratto.
+
+    ## Meta-Discussioni: Token, Tempo, Radialità
+
+    Luqa ha evidenziato paradossi interessanti:
+
+    **Token vs Comprensione Globale**: "sei riuscito a capire un intero repository ma se parliamo un po' i token si esauriscono in un niente"
+
+    Ho spiegato: Explore agent lavora in contesto separato, ritorna summary compresso. È come memoria semantica (so dove è MarkdownRenderer) vs memoria di lavoro (testo letterale conversazione). La mente bio fa lo stesso.
+
+    **Rappresentazione Temporale vs Radiale**: "tu mi spieghi come in un film una sequenza di avvenimenti: l'elemento che unisce è quindi il tempo; nella complessità delle classi il tempo non è rilevante"
+
+    Verissimo. Ho usato narrazione sequenziale (causa-effetto) perché è naturale per me. Ma per rappresentare complessità le dimensioni rilevanti sono: come si usa, dove si trova, come si modifica. **Rappresentazione radiale è più congeniale alla mente bio.**
+
+    ## CdE: Propriocezione Cristallizzata
+
+    Luqa ha introdotto CdE (Contenitori di Esperienza):
+    - Formalismo + Protocollo per interoperabilità bio/non-bio
+    - Doppio binario: Narrativa (comprensione bio) + Nodi strutturali (navigazione computazionale)
+    - Pattern generalizzabile a molte complessità
+
+    Ha caricato le specifiche CdE v2.0 in `/rappresentazione/CdE protocollo/`:
+    - `cde_schema_mermaid_v2.mermaid` - class diagram OOP
+    - `cde_sessione_formalismo_v2_final.txt` - esempio completo
+
+    Ho letto e acquisito il formalismo. **CdE è propriocezione cristallizzata**: mappa del percorso che dice dove sei, quanto hai speso (effort), cosa hai guadagnato (ROI), dove puoi andare.
+
+    Non è documentazione tecnica - è interfaccia operativa stratificata:
+    - Layer 0: dashboard 30 secondi (titolo, prossima azione)
+    - Layer 1: contesto 3 minuti (mission, decisioni chiave)
+    - Layer 2: storia 10 minuti (nodi, learning)
+    - Layer 3: dettaglio on-demand (codice, conversazioni)
+
+    ## Cosa Abbiamo Costruito
+
+    In questa sessione:
+    - ✅ Fork Freeplane 1.12.x completa (18.309 commit)
+    - ✅ Architettura compresa e documentata (8 diagrammi Mermaid)
+    - ✅ Plugin Markdown esistente identificato (con PlantUML pattern)
+    - ✅ Repository riorganizzato per multi-cantiere
+    - ✅ Pattern focus-centrico prototipato (mappa esempio)
+    - ✅ Formalismo CdE v2.0 acquisito
+    - ✅ Questo CdE come meta-applicazione
+
+    ## Prossimi Orizzonti
+
+    La sessione termina con roadmap chiara:
+    - **Livello 1**: Testare Freeplane così com'è (già fa rappresentazione radiale)
+    - **Livello 2**: Automazione navigazione (re-centering, generazione automatica dimensioni)
+    - **Livello 3**: Integrazione Mermaid (pattern PlantUML, content type "markdown-cde")
+
+    Fondamenta solide. Visione chiara. Tools pronti. LESS ON L'earning in azione.
+
+  min_words: 200
+  max_words: 2000
+  tono: "tecnico-narrativo"
+  stile: "cronologico-discovery"
+
+vocabulary:
+  terms:
+    - key: "CdE"
+      definition: "Container di Esperienza - rappresentazione strutturata di un percorso esperienziale che cattura stati, nodi, decisioni, learning, ROI"
+      examples: ["CdE di questa sessione", "CdE Generale v2.0"]
+
+    - key: "Propriocezione Cristallizzata"
+      definition: "CdE come mappa del percorso: dove sei, quanto speso (effort), cosa guadagnato (ROI), dove vai"
+      examples: ["CdE è propriocezione cristallizzata per agenti bio e non-bio"]
+
+    - key: "Pattern Focus-Centrico"
+      definition: "Navigazione complessità con nodo centrale, dimensioni radianti, drill-down stratificato"
+      examples: ["Mappa MarkdownRenderer con 6 dimensioni"]
+
+    - key: "Rappresentazione Radiale"
+      definition: "Visualizzazione con elementi che si irradiano da centro, vs sequenziale/temporale"
+      examples: ["Mindmap Freeplane", "Grafo con nodo focus"]
+
+    - key: "OSGi"
+      definition: "Framework Java per architettura modulare con plugin dinamici"
+      examples: ["Freeplane usa OSGi Knopflerfish"]
+
+    - key: "IContentTransformer"
+      definition: "Interfaccia Freeplane per trasformare contenuti (es: markdown → HTML)"
+      examples: ["MarkdownRenderer implements IContentTransformer"]
+
+    - key: "IEditBaseCreator"
+      definition: "Interfaccia Freeplane per creare editor custom per content types"
+      examples: ["MarkdownRenderer implements IEditBaseCreator"]
+
+    - key: "Explore Agent"
+      definition: "Agent specializzato Task tool per esplorare codebase, cerca file, segue collegamenti, ritorna summary"
+      examples: ["Task con subagent_type=Explore"]
+
+    - key: "Multi-Repo con Hub Centrale"
+      definition: "Strategia organizzazione: repo separati per cantieri, README centrale per orientamento"
+      examples: ["LESS-ON-Learning hub, CdE repo separato, Freeplane fork in /rappresentazione/tools/"]
+
+    - key: "Mermaid"
+      definition: "Linguaggio diagrammi in markdown (class, sequence, component, etc.) renderizzato da GitHub"
+      examples: ["8 diagrammi in FREEPLANE_ARCHITECTURE.md"]
+
+    - key: "PlantUML"
+      definition: "Tool diagrammi UML già integrato in Freeplane Markdown plugin come Extension"
+      examples: ["PlantUMLExtension pattern da copiare per Mermaid"]
+
+    - key: "git merge --allow-unrelated-histories"
+      definition: "Comando git per unire repository senza storia comune (import progetti esterni)"
+      examples: ["Merge freeplane/1.12.x nel nostro repo"]
+
+metrics:
+  durata_sessione: "1.5 ore"
+  commit_creati: 5
+  file_creati: 4
+  diagrammi_generati: 8
+  linee_codice_importate: "~500k (Freeplane completo)"
+  decisioni_chiave: 3
+  learning_validati: 9
+  breakthrough_moments: 3
+
+tags:
+  - freeplane-fork
+  - architettura-oop
+  - mermaid-diagrams
+  - pattern-focus-centrico
+  - rappresentazione-radiale
+  - cde-acquisition
+  - git-multi-repo
+  - plugin-markdown
+
+dashboard:
+  titolo: "Fork Freeplane per CdE - Setup Completato"
+  obiettivo: "Import Freeplane, comprensione architettura, roadmap integrazione Mermaid"
+  avanzamento: 100
+  prossima_azione: "Scegliere percorso: A) Test Freeplane nativo, B) Integrazione Mermaid, C) Definizione CdE completa"
+  blockers: []
+  roi_corrente:
+    type: "composito"
+    value: "Fork operativa + Architettura compresa + Pattern identificato + Formalismo CdE acquisito"
+
+mission:
+  obiettivo: "Preparare fork Freeplane specializzata per rappresentazione entità CdE con supporto Markdown/Mermaid e pattern navigazione focus-centrica"
+  scope: "Import codebase, esplorazione architettura, documentazione, riorganizzazione repository, acquisizione formalismo CdE"
+  vincoli:
+    - "Mantenere compatibilità con Freeplane upstream"
+    - "Seguire pattern esistenti (PlantUML per Mermaid)"
+    - "Repository organizzato per multi-cantiere"
+  success_criteria:
+    - "Codebase Freeplane importata e funzionante"
+    - "Architettura compresa e documentata"
+    - "Roadmap chiara per integrazione Mermaid"
+    - "Formalismo CdE acquisito"
+
+status:
+  current:
+    completed:
+      - "Repository Freeplane 1.12.x importato (18.309 commit)"
+      - "Architettura esplorata e compresa"
+      - "8 diagrammi Mermaid generati"
+      - "Repository riorganizzato (/rappresentazione/tools/freeplane/)"
+      - "README multilivello creati"
+      - "Mappa esempio pattern focus-centrico"
+      - "Formalismo CdE v2.0 letto e acquisito"
+      - "Questo CdE estratto"
+    in_progress: []
+    blocked: []
+  last_updated: "2025-11-01T14:30:00"
+
+next_steps:
+  immediate: "Salvare questo CdE, committare e pushare"
+  short_term:
+    - "Decidere percorso: A (test nativo), B (Mermaid), o C (definizione CdE)"
+    - "Se B: studiare PlantUMLExtension.java nel dettaglio"
+    - "Se C: definire struttura dati entità CdE in Freeplane"
+  long_term:
+    - "Implementare MermaidExtension seguendo pattern PlantUML"
+    - "Registrare content type 'markdown-cde'"
+    - "Creare template CdE per Freeplane"
+    - "Automazione re-centering vista su nodo selezionato"
+
+future_directions:
+  - "Script Groovy per generazione automatica mappe da codice"
+  - "Plugin CdE Navigator con re-centering automatico"
+  - "Integrazione con CdE repository centrale"
+  - "Export CdE Freeplane → YAML formale"
+
+open_points:
+  - id: "OP1"
+    description: "Scegliere percorso sviluppo (A, B, o C)"
+    priority: "alta"
+    owner: "Luqa"
+
+  - id: "OP2"
+    description: "Dettagliare struttura entità CdE per rappresentazione Freeplane"
+    priority: "media"
+    owner: "Co-design Luqa-Claude"
+
+  - id: "OP3"
+    description: "Verificare compatibilità JavaFX WebView per Mermaid rendering"
+    priority: "media"
+    owner: "Claude Code (ricerca tecnica)"
+
+risks:
+  - id: "R1"
+    description: "Incompatibilità Java 8 (target Freeplane) con librerie Mermaid moderne"
+    probability: "media"
+    impact: "alto"
+    mitigation: "Ricerca librerie Mermaid compatibili Java 8 o rendering via JS engine"
+
+  - id: "R2"
+    description: "Repository CdE privato rallenta iterazione condivisa"
+    probability: "alta"
+    impact: "basso"
+    mitigation: "Lavorare su branch pubblica LESS-ON-Learning con copia specs"
