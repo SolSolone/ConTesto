@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Placeholder diagram BPMN per il processo AS-IS / TO-BE -->
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" targetNamespace="http://example.com/bpmn">
+  <process id="llmAsIsToBe" name="LLM AS-IS TO-BE" isExecutable="false">
+  </process>
+</definitions>
