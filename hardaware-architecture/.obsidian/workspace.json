@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "roles/LLM Orchestrator.md",
+                "file": "README.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "LLM Orchestrator"
+              "title": "README"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "roles/LLM Orchestrator.md",
+                "file": "README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for LLM Orchestrator"
+              "title": "Backlinks for README"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "roles/LLM Orchestrator.md",
+                "file": "README.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from LLM Orchestrator"
+              "title": "Outgoing links from README"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "roles/LLM Orchestrator.md",
+                "file": "README.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of LLM Orchestrator"
+              "title": "Outline of README"
             }
           }
         ]
@@ -185,6 +185,8 @@
   },
   "active": "facdfe028211a719",
   "lastOpenFiles": [
+    "canvas/Cross-Functional LLM Architecture.canvas",
+    "roles/LLM Orchestrator.md",
     "roles/Tools and Adapters.md",
     "README.md",
     "domain/bounded-contexts.md",
@@ -194,12 +196,10 @@
     "docs/requirements/_template.md",
     "docs/usecases/UC-001.md",
     "docs/usecases/_template.md",
-    "roles/LLM Orchestrator.md",
     "roles/Data and Stores.md",
     "roles/Customer.md",
     "roles/Agent.md",
     "docs/requirements/REQ-001.md",
-    "docs/adr/_template.md",
-    "canvas/Cross-Functional LLM Architecture.canvas"
+    "docs/adr/_template.md"
   ]
 }
