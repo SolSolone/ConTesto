@@ -1,3 +1,8 @@
-# Tools and Adapters
+# Tools & Adapters
 
-Descrizione placeholder del ruolo.
+Responsabilità, sistemi, KPI e attori coinvolti.
+
+- **Responsabilità principali:**
+- **Sistemi/Strumenti:**
+- **Interfacce:**
+- **Note:**

@@ -1,4 +1,29 @@
 {
-  "version": "0.1",
-  "description": "Placeholder per il canvas dell'architettura cross-funzionale LLM."
+	"version":"1.0",
+	"nodes":[
+		{"id":"g-customer","type":"group","x":-240,"y":-420,"width":1140,"height":180,"color":"#0ea5e9","label":"Lane: Customer","background":"#041b29"},
+		{"id":"g-agent","type":"group","x":-240,"y":-180,"width":1140,"height":180,"color":"#7c3aed","label":"Lane: Agent","background":"#170c28"},
+		{"id":"g-orch","type":"group","x":-980,"y":60,"width":1140,"height":180,"color":"#f59e0b","label":"Lane: LLM Orchestrator","background":"#231a05"},
+		{"id":"g-tools","type":"group","x":-1100,"y":300,"width":1140,"height":180,"color":"#10b981","label":"Lane: Tools & Adapters","background":"#082a20"},
+		{"id":"g-data","type":"group","x":-120,"y":560,"width":1140,"height":180,"color":"#ef4444","label":"Lane: Data & Stores","background":"#2b0b0b"},
+		{"id":"n-header","type":"text","background":"#0b1020","textAlign":"left","text":"### AS-IS / TO-BE � Cross-Functional Map\n\nQuesta canvas � un **template** con corsie (ruoli) e link ai file.\n- Modifica i nodi *file* verdi per puntare ai tuoi artefatti nel vault.\n- Il file BPMN contiene due processi: `Process_ASIS` e `Process_TOBE`.\n","x":-250,"y":-720,"width":1140,"height":160,"color":"#4f46e5"},
+		{"id":"f-bpmn","type":"file","file":"process/llm-as-is-to-be.bpmn","background":"#052e2b","label":"BPMN: AS-IS + TO-BE","x":-200,"y":-380,"width":520,"height":120,"color":"#059669"},
+		{"id":"f-customer","type":"file","file":"roles/Customer.md","background":"#052e2b","label":"Ruolo: Customer","x":420,"y":-380,"width":360,"height":120,"color":"#059669"},
+		{"id":"f-agent","type":"file","file":"roles/Agent.md","background":"#052e2b","label":"Ruolo: Agent","x":360,"y":-140,"width":360,"height":120,"color":"#059669"},
+		{"id":"t-asis","type":"text","background":"#0b1020","textAlign":"left","text":"### AS-IS: placeholder\n\n- Start ? Raccolta input manuale ? Prompt manuale LLM ? Copia/Incolla ? End\n- Identifica colli di bottiglia, errori, attese, rework.\n","x":-200,"y":-140,"width":520,"height":120,"color":"#4f46e5"},
+		{"id":"f-data","type":"file","file":"roles/Data and Stores.md","background":"#052e2b","label":"Ruolo: Data & Stores","x":480,"y":600,"width":360,"height":120,"color":"#059669"},
+		{"id":"f-tools","type":"file","file":"roles/Tools and Adapters.md","background":"#052e2b","label":"Ruolo: Tools & Adapters","x":-500,"y":340,"width":360,"height":120,"color":"#059669"},
+		{"id":"f-orch","type":"file","file":"roles/LLM Orchestrator.md","background":"#052e2b","label":"Ruolo: LLM Orchestrator","x":-380,"y":100,"width":360,"height":120,"color":"#059669"},
+		{"id":"t-tobe","type":"text","background":"#0b1020","textAlign":"left","text":"### TO-BE: placeholder\n\n- Start ? Cattura goal & contesto ? Pianifica/Reasoning ? RAG/Tools ? End\n- Introduci automazioni, metriche, guardrails, feedback loop.\n","x":-940,"y":100,"width":520,"height":120,"color":"#4f46e5"}
+	],
+	"edges":[
+		{"id":"e-header-bpmn","arrow":"arrow","fromNode":"n-header","fromSide":"bottom","toNode":"f-bpmn","toSide":"top","color":"#94a3b8","label":"processi"},
+		{"id":"e-header-cust","arrow":"arrow","fromNode":"n-header","fromSide":"bottom","toNode":"f-customer","toSide":"top","color":"#94a3b8","label":"ruolo"},
+		{"id":"e-header-agent","arrow":"arrow","fromNode":"n-header","fromSide":"bottom","toNode":"f-agent","toSide":"top","color":"#94a3b8","label":"ruolo"},
+		{"id":"e-header-orch","arrow":"arrow","fromNode":"n-header","fromSide":"bottom","toNode":"f-orch","toSide":"top","color":"#94a3b8","label":"ruolo"},
+		{"id":"e-header-tools","arrow":"arrow","fromNode":"n-header","fromSide":"bottom","toNode":"f-tools","toSide":"top","color":"#94a3b8","label":"ruolo"},
+		{"id":"e-header-data","arrow":"arrow","fromNode":"n-header","fromSide":"bottom","toNode":"f-data","toSide":"top","color":"#94a3b8","label":"ruolo"},
+		{"id":"e-header-asis","arrow":"arrow","fromNode":"n-header","fromSide":"bottom","toNode":"t-asis","toSide":"top","color":"#94a3b8","label":"AS-IS"},
+		{"id":"e-header-tobe","arrow":"arrow","fromNode":"n-header","fromSide":"bottom","toNode":"t-tobe","toSide":"top","color":"#94a3b8","label":"TO-BE"}
+	]
 }

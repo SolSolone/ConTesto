@@ -1,6 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Placeholder diagram BPMN per il processo AS-IS / TO-BE -->
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" targetNamespace="http://example.com/bpmn">
-  <process id="llmAsIsToBe" name="LLM AS-IS TO-BE" isExecutable="false">
-  </process>
-</definitions>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/DI"
+  id="Definitions_LLMSkeleton"
+  targetNamespace="http://hardaware.local/llm/architecture"
+  exporter="hardAware"
+  exporterVersion="1.0">
+
+  <!-- AS-IS -->
+  <bpmn:process id="Process_ASIS" name="LLM Process - AS-IS" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_ASIS">
+      <bpmn:lane id="Lane_ASIS_Customer" name="Customer">
+        <bpmn:flowNodeRef>Start_ASIS</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_ASIS_Agent" name="Agent">
+        <bpmn:flowNodeRef>Task_ASIS_AgentWork</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_ASIS_Orchestrator" name="LLM Orchestrator">
+        <bpmn:flowNodeRef>Task_ASIS_ManualPrompting</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_ASIS_Tools" name="Tools &amp; Adapters">
+        <bpmn:flowNodeRef>Task_ASIS_ManualDataPrep</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_ASIS_Data" name="Data &amp; Stores">
+        <bpmn:flowNodeRef>End_ASIS</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:startEvent id="Start_ASIS" name="Trigger (Richiesta cliente)"/>
+    <bpmn:task id="Task_ASIS_AgentWork" name="Raccolta input manuale"/>
+    <bpmn:task id="Task_ASIS_ManualPrompting" name="Prompt manuale LLM"/>
+    <bpmn:task id="Task_ASIS_ManualDataPrep" name="Copia/Incolla dati da fonti"/>
+    <bpmn:endEvent id="End_ASIS" name="Output consegnato"/>
+
+    <bpmn:sequenceFlow id="Flow_ASIS_1" sourceRef="Start_ASIS" targetRef="Task_ASIS_AgentWork"/>
+    <bpmn:sequenceFlow id="Flow_ASIS_2" sourceRef="Task_ASIS_AgentWork" targetRef="Task_ASIS_ManualPrompting"/>
+    <bpmn:sequenceFlow id="Flow_ASIS_3" sourceRef="Task_ASIS_ManualPrompting" targetRef="Task_ASIS_ManualDataPrep"/>
+    <bpmn:sequenceFlow id="Flow_ASIS_4" sourceRef="Task_ASIS_ManualDataPrep" targetRef="End_ASIS"/>
+  </bpmn:process>
+
+  <!-- TO-BE -->
+  <bpmn:process id="Process_TOBE" name="LLM Process - TO-BE" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_TOBE">
+      <bpmn:lane id="Lane_TOBE_Customer" name="Customer">
+        <bpmn:flowNodeRef>Start_TOBE</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_TOBE_Agent" name="Agent">
+        <bpmn:flowNodeRef>Task_TOBE_GoalCapture</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_TOBE_Orchestrator" name="LLM Orchestrator">
+        <bpmn:flowNodeRef>Task_TOBE_PlanAndReason</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_TOBE_Tools" name="Tools &amp; Adapters">
+        <bpmn:flowNodeRef>Task_TOBE_RetrievalAndTools</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_TOBE_Data" name="Data &amp; Stores">
+        <bpmn:flowNodeRef>End_TOBE</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:startEvent id="Start_TOBE" name="Trigger (Intent)"/>
+    <bpmn:task id="Task_TOBE_GoalCapture" name="Cattura goal &amp; contesto"/>
+    <bpmn:task id="Task_TOBE_PlanAndReason" name="Pianifica/Reasoning + Prompting"/>
+    <bpmn:task id="Task_TOBE_RetrievalAndTools" name="RAG + Tool/Action"/>
+    <bpmn:endEvent id="End_TOBE" name="Output verificato + log"/>
+
+    <bpmn:sequenceFlow id="Flow_TOBE_1" sourceRef="Start_TOBE" targetRef="Task_TOBE_GoalCapture"/>
+    <bpmn:sequenceFlow id="Flow_TOBE_2" sourceRef="Task_TOBE_GoalCapture" targetRef="Task_TOBE_PlanAndReason"/>
+    <bpmn:sequenceFlow id="Flow_TOBE_3" sourceRef="Task_TOBE_PlanAndReason" targetRef="Task_TOBE_RetrievalAndTools"/>
+    <bpmn:sequenceFlow id="Flow_TOBE_4" sourceRef="Task_TOBE_RetrievalAndTools" targetRef="End_TOBE"/>
+  </bpmn:process>
+
+</bpmn:definitions>
