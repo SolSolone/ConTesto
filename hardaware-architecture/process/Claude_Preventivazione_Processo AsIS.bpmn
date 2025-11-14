@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" 
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" 
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" 
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                  id="Definitions_GestionePreventivi" 
+                  targetNamespace="http://pmi.esempio.it/preventivi">
+
+  <bpmn:collaboration id="Collaboration_Preventivi">
+    <bpmn:participant id="Participant_Cliente" name="CLIENTE" processRef="Process_Cliente" />
+    <bpmn:participant id="Participant_PMI" name="PMI (15 pers, Edison)" processRef="Process_PMI" />
+    
+    <bpmn:messageFlow id="Flow_RichiestaPreventivo" sourceRef="Task_Cliente_RichiedePreventivo" targetRef="Event_Start_RichiestaArrivata" />
+    <bpmn:messageFlow id="Flow_InvioOfferta" sourceRef="Task_InviaOffertaEmail" targetRef="Task_Cliente_RiceveOfferta" />
+    <bpmn:messageFlow id="Flow_Conferma" sourceRef="Task_Cliente_Conferma" targetRef="Event_ConfermaOrdine" />
+  </bpmn:collaboration>
+
+  <!-- PROCESSO CLIENTE -->
+  <bpmn:process id="Process_Cliente" name="Cliente" isExecutable="false">
+    <bpmn:startEvent id="Start_Cliente" name="Necessità lavoro" />
+    <bpmn:task id="Task_Cliente_RichiedePreventivo" name="Richiede preventivo" />
+    <bpmn:task id="Task_Cliente_RiceveOfferta" name="Riceve offerta" />
+    <bpmn:exclusiveGateway id="Gateway_Cliente_Decide" name="Valuta?" />
+    <bpmn:task id="Task_Cliente_Conferma" name="Conferma ordine" />
+    <bpmn:endEvent id="End_Cliente_OK" name="Confermato" />
+    <bpmn:endEvent id="End_Cliente_KO" name="Perso" />
+    
+    <bpmn:sequenceFlow id="Flow_C1" sourceRef="Start_Cliente" targetRef="Task_Cliente_RichiedePreventivo" />
+    <bpmn:sequenceFlow id="Flow_C2" sourceRef="Task_Cliente_RichiedePreventivo" targetRef="Task_Cliente_RiceveOfferta" />
+    <bpmn:sequenceFlow id="Flow_C3" sourceRef="Task_Cliente_RiceveOfferta" targetRef="Gateway_Cliente_Decide" />
+    <bpmn:sequenceFlow id="Flow_C4" sourceRef="Gateway_Cliente_Decide" targetRef="Task_Cliente_Conferma" name="OK" />
+    <bpmn:sequenceFlow id="Flow_C5" sourceRef="Gateway_Cliente_Decide" targetRef="End_Cliente_KO" name="NO" />
+    <bpmn:sequenceFlow id="Flow_C6" sourceRef="Task_Cliente_Conferma" targetRef="End_Cliente_OK" />
+  </bpmn:process>
+
+  <!-- PROCESSO PMI -->
+  <bpmn:process id="Process_PMI" name="PMI" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_PMI">
+      <bpmn:lane id="Lane_Amministrazione" name="AMMINISTRAZIONE">
+        <bpmn:flowNodeRef>Event_Start_RichiestaArrivata</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RegistraRichiesta</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AssegnaResponsabile</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_ClienteNuovo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RecuperaDatiStorici</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_InviaOffertaEmail</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ArchiviaPreventivo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_OffertaInviata</bpmn:flowNodeRef>
+      </bpmn:lane>
+      
+      <bpmn:lane id="Lane_Responsabile" name="RESPONSABILE TECNICO">
+        <bpmn:flowNodeRef>Task_Sopralluogo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_DefinizioneCapitolato</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RicercaMateriali</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_CompilaPreventivo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_CalcolaManodopera</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AnalisiCosti</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_MargineOK</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AggiustaSconti</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_PersonalizzaStampa</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_GeneraPDF</bpmn:flowNodeRef>
+      </bpmn:lane>
+      
+      <bpmn:lane id="Lane_Titolare" name="TITOLARE">
+        <bpmn:flowNodeRef>Task_Revisione</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Approva</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_ConfermaOrdine</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ConvertiCommessa</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_GeneraOrdiniFornitore</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_Vinto</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <!-- Eventi -->
+    <bpmn:startEvent id="Event_Start_RichiestaArrivata" name="Richiesta arrivata" />
+    <bpmn:intermediateCatchEvent id="Event_ConfermaOrdine" name="Conferma ordine" />
+    <bpmn:endEvent id="End_OffertaInviata" name="Offerta inviata" />
+    <bpmn:endEvent id="End_Vinto" name="Vinto" />
+
+    <!-- Task Amministrazione -->
+    <bpmn:task id="Task_RegistraRichiesta" name="Registra richiesta" />
+    <bpmn:task id="Task_AssegnaResponsabile" name="Assegna a Responsabile" />
+    <bpmn:exclusiveGateway id="Gateway_ClienteNuovo" name="Cliente nuovo?" />
+    <bpmn:task id="Task_RecuperaDatiStorici" name="Recupera dati da Edison" />
+    <bpmn:task id="Task_InviaOffertaEmail" name="Invia offerta email (Edison)" />
+    <bpmn:task id="Task_ArchiviaPreventivo" name="Archivia preventivo" />
+
+    <!-- Task Responsabile -->
+    <bpmn:task id="Task_Sopralluogo" name="Sopralluogo" />
+    <bpmn:task id="Task_DefinizioneCapitolato" name="Definisce capitolato" />
+    <bpmn:task id="Task_RicercaMateriali" name="Ricerca materiali listini Edison" />
+    <bpmn:task id="Task_CompilaPreventivo" name="Compila preventivo Edison" />
+    <bpmn:task id="Task_CalcolaManodopera" name="Calcola manodopera" />
+    <bpmn:task id="Task_AnalisiCosti" name="Analisi costi/prezzi (Edison)" />
+    <bpmn:exclusiveGateway id="Gateway_MargineOK" name="Margine OK?" />
+    <bpmn:task id="Task_AggiustaSconti" name="Aggiusta sconti/ricarichi" />
+    <bpmn:task id="Task_PersonalizzaStampa" name="Personalizza stampa" />
+    <bpmn:task id="Task_GeneraPDF" name="Genera PDF" />
+
+    <!-- Task Titolare -->
+    <bpmn:task id="Task_Revisione" name="Revisione e approvazione" />
+    <bpmn:exclusiveGateway id="Gateway_Approva" name="Approva?" />
+    <bpmn:task id="Task_ConvertiCommessa" name="Converti in commessa Edison" />
+    <bpmn:task id="Task_GeneraOrdiniFornitore" name="Genera ordini fornitore" />
+
+    <!-- Flussi -->
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="Event_Start_RichiestaArrivata" targetRef="Task_RegistraRichiesta" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_RegistraRichiesta" targetRef="Task_AssegnaResponsabile" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_AssegnaResponsabile" targetRef="Gateway_ClienteNuovo" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="Gateway_ClienteNuovo" targetRef="Task_RecuperaDatiStorici" name="Esistente" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="Gateway_ClienteNuovo" targetRef="Task_Sopralluogo" name="Nuovo" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="Task_RecuperaDatiStorici" targetRef="Task_Sopralluogo" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="Task_Sopralluogo" targetRef="Task_DefinizioneCapitolato" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="Task_DefinizioneCapitolato" targetRef="Task_RicercaMateriali" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="Task_RicercaMateriali" targetRef="Task_CompilaPreventivo" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="Task_CompilaPreventivo" targetRef="Task_CalcolaManodopera" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="Task_CalcolaManodopera" targetRef="Task_AnalisiCosti" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="Task_AnalisiCosti" targetRef="Gateway_MargineOK" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="Gateway_MargineOK" targetRef="Task_AggiustaSconti" name="NO" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="Task_AggiustaSconti" targetRef="Task_AnalisiCosti" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="Gateway_MargineOK" targetRef="Task_PersonalizzaStampa" name="SI" />
+    <bpmn:sequenceFlow id="Flow_16" sourceRef="Task_PersonalizzaStampa" targetRef="Task_GeneraPDF" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="Task_GeneraPDF" targetRef="Task_Revisione" />
+    <bpmn:sequenceFlow id="Flow_18" sourceRef="Task_Revisione" targetRef="Gateway_Approva" />
+    <bpmn:sequenceFlow id="Flow_19" sourceRef="Gateway_Approva" targetRef="Task_DefinizioneCapitolato" name="NO" />
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="Gateway_Approva" targetRef="Task_InviaOffertaEmail" name="SI" />
+    <bpmn:sequenceFlow id="Flow_21" sourceRef="Task_InviaOffertaEmail" targetRef="Task_ArchiviaPreventivo" />
+    <bpmn:sequenceFlow id="Flow_22" sourceRef="Task_ArchiviaPreventivo" targetRef="End_OffertaInviata" />
+    <bpmn:sequenceFlow id="Flow_23" sourceRef="Event_ConfermaOrdine" targetRef="Task_ConvertiCommessa" />
+    <bpmn:sequenceFlow id="Flow_24" sourceRef="Task_ConvertiCommessa" targetRef="Task_GeneraOrdiniFornitore" />
+    <bpmn:sequenceFlow id="Flow_25" sourceRef="Task_GeneraOrdiniFornitore" targetRef="End_Vinto" />
+  </bpmn:process>
+
+  <!-- DIAGRAMMA VISUALE -->
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_Preventivi">
+      
+      <!-- Pool Cliente -->
+      <bpmndi:BPMNShape id="Participant_Cliente_di" bpmnElement="Participant_Cliente" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="2800" height="200" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Start_Cliente_di" bpmnElement="Start_Cliente">
+        <dc:Bounds x="230" y="152" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_Cliente_RichiedePreventivo_di" bpmnElement="Task_Cliente_RichiedePreventivo">
+        <dc:Bounds x="330" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_Cliente_RiceveOfferta_di" bpmnElement="Task_Cliente_RiceveOfferta">
+        <dc:Bounds x="2100" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Gateway_Cliente_Decide_di" bpmnElement="Gateway_Cliente_Decide" isMarkerVisible="true">
+        <dc:Bounds x="2275" y="145" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_Cliente_Conferma_di" bpmnElement="Task_Cliente_Conferma">
+        <dc:Bounds x="2400" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="End_Cliente_OK_di" bpmnElement="End_Cliente_OK">
+        <dc:Bounds x="2572" y="152" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="End_Cliente_KO_di" bpmnElement="End_Cliente_KO">
+        <dc:Bounds x="2282" y="220" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNEdge id="Flow_C1_di" bpmnElement="Flow_C1">
+        <di:waypoint x="266" y="170" />
+        <di:waypoint x="330" y="170" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_C2_di" bpmnElement="Flow_C2">
+        <di:waypoint x="430" y="170" />
+        <di:waypoint x="2100" y="170" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_C3_di" bpmnElement="Flow_C3">
+        <di:waypoint x="2200" y="170" />
+        <di:waypoint x="2275" y="170" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_C4_di" bpmnElement="Flow_C4">
+        <di:waypoint x="2325" y="170" />
+        <di:waypoint x="2400" y="170" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_C5_di" bpmnElement="Flow_C5">
+        <di:waypoint x="2300" y="195" />
+        <di:waypoint x="2300" y="220" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_C6_di" bpmnElement="Flow_C6">
+        <di:waypoint x="2500" y="170" />
+        <di:waypoint x="2572" y="170" />
+      </bpmndi:BPMNEdge>
+
+      <!-- Pool PMI -->
+      <bpmndi:BPMNShape id="Participant_PMI_di" bpmnElement="Participant_PMI" isHorizontal="true">
+        <dc:Bounds x="160" y="320" width="2800" height="700" />
+      </bpmndi:BPMNShape>
+      
+      <!-- Lane Amministrazione -->
+      <bpmndi:BPMNShape id="Lane_Amministrazione_di" bpmnElement="Lane_Amministrazione" isHorizontal="true">
+        <dc:Bounds x="190" y="320" width="2770" height="200" />
+      </bpmndi:BPMNShape>
+      
+      <!-- Lane Responsabile -->
+      <bpmndi:BPMNShape id="Lane_Responsabile_di" bpmnElement="Lane_Responsabile" isHorizontal="true">
+        <dc:Bounds x="190" y="520" width="2770" height="300" />
+      </bpmndi:BPMNShape>
+      
+      <!-- Lane Titolare -->
+      <bpmndi:BPMNShape id="Lane_Titolare_di" bpmnElement="Lane_Titolare" isHorizontal="true">
+        <dc:Bounds x="190" y="820" width="2770" height="200" />
+      </bpmndi:BPMNShape>
+
+      <!-- Shapes Amministrazione -->
+      <bpmndi:BPMNShape id="Event_Start_RichiestaArrivata_di" bpmnElement="Event_Start_RichiestaArrivata">
+        <dc:Bounds x="362" y="392" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_RegistraRichiesta_di" bpmnElement="Task_RegistraRichiesta">
+        <dc:Bounds x="460" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_AssegnaResponsabile_di" bpmnElement="Task_AssegnaResponsabile">
+        <dc:Bounds x="620" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Gateway_ClienteNuovo_di" bpmnElement="Gateway_ClienteNuovo" isMarkerVisible="true">
+        <dc:Bounds x="775" y="385" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_RecuperaDatiStorici_di" bpmnElement="Task_RecuperaDatiStorici">
+        <dc:Bounds x="750" y="450" width="100" height="60" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_InviaOffertaEmail_di" bpmnElement="Task_InviaOffertaEmail">
+        <dc:Bounds x="1900" y="370" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_ArchiviaPreventivo_di" bpmnElement="Task_ArchiviaPreventivo">
+        <dc:Bounds x="2080" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="End_OffertaInviata_di" bpmnElement="End_OffertaInviata">
+        <dc:Bounds x="2242" y="392" width="36" height="36" />
+      </bpmndi:BPMNShape>
+
+      <!-- Shapes Responsabile -->
+      <bpmndi:BPMNShape id="Task_Sopralluogo_di" bpmnElement="Task_Sopralluogo">
+        <dc:Bounds x="880" y="630" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_DefinizioneCapitolato_di" bpmnElement="Task_DefinizioneCapitolato">
+        <dc:Bounds x="1020" y="630" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_RicercaMateriali_di" bpmnElement="Task_RicercaMateriali">
+        <dc:Bounds x="1160" y="630" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_CompilaPreventivo_di" bpmnElement="Task_CompilaPreventivo">
+        <dc:Bounds x="1300" y="630" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_CalcolaManodopera_di" bpmnElement="Task_CalcolaManodopera">
+        <dc:Bounds x="1440" y="630" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_AnalisiCosti_di" bpmnElement="Task_AnalisiCosti">
+        <dc:Bounds x="1240" y="750" width="100" height="70" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Gateway_MargineOK_di" bpmnElement="Gateway_MargineOK" isMarkerVisible="true">
+        <dc:Bounds x="1395" y="760" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_AggiustaSconti_di" bpmnElement="Task_AggiustaSconti">
+        <dc:Bounds x="1370" y="690" width="100" height="50" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_PersonalizzaStampa_di" bpmnElement="Task_PersonalizzaStampa">
+        <dc:Bounds x="1500" y="755" width="100" height="60" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_GeneraPDF_di" bpmnElement="Task_GeneraPDF">
+        <dc:Bounds x="1640" y="755" width="100" height="60" />
+      </bpmndi:BPMNShape>
+
+      <!-- Shapes Titolare -->
+      <bpmndi:BPMNShape id="Task_Revisione_di" bpmnElement="Task_Revisione">
+        <dc:Bounds x="1640" y="880" width="100" height="70" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Gateway_Approva_di" bpmnElement="Gateway_Approva" isMarkerVisible="true">
+        <dc:Bounds x="1795" y="890" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Event_ConfermaOrdine_di" bpmnElement="Event_ConfermaOrdine">
+        <dc:Bounds x="2432" y="897" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_ConvertiCommessa_di" bpmnElement="Task_ConvertiCommessa">
+        <dc:Bounds x="2530" y="875" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Task_GeneraOrdiniFornitore_di" bpmnElement="Task_GeneraOrdiniFornitore">
+        <dc:Bounds x="2710" y="875" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="End_Vinto_di" bpmnElement="End_Vinto">
+        <dc:Bounds x="2882" y="897" width="36" height="36" />
+      </bpmndi:BPMNShape>
+
+      <!-- Flussi PMI (solo principali per leggibilità) -->
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="398" y="410" />
+        <di:waypoint x="460" y="410" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="560" y="410" />
+        <di:waypoint x="620" y="410" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="720" y="410" />
+        <di:waypoint x="775" y="410" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="800" y="435" />
+        <di:waypoint x="800" y="450" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
+        <di:waypoint x="825" y="410" />
+        <di:waypoint x="930" y="410" />
+        <di:waypoint x="930" y="630" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6">
+        <di:waypoint x="850" y="480" />
+        <di:waypoint x="930" y="480" />
+        <di:waypoint x="930" y="630" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_7_di" bpmnElement="Flow_7">
+        <di:waypoint x="980" y="670" />
+        <di:waypoint x="1020" y="670" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8">
+        <di:waypoint x="1120" y="670" />
+        <di:waypoint x="1160" y="670" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9">
+        <di:waypoint x="1260" y="670" />
+        <di:waypoint x="1300" y="670" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10">
+        <di:waypoint x="1400" y="670" />
+        <di:waypoint x="1440" y="670" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11">
+        <di:waypoint x="1490" y="710" />
+        <di:waypoint x="1490" y="785" />
+        <di:waypoint x="1340" y="785" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_12_di" bpmnElement="Flow_12">
+        <di:waypoint x="1340" y="785" />
+        <di:waypoint x="1395" y="785" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_13_di" bpmnElement="Flow_13">
+        <di:waypoint x="1420" y="760" />
+        <di:waypoint x="1420" y="740" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_14_di" bpmnElement="Flow_14">
+        <di:waypoint x="1370" y="715" />
+        <di:waypoint x="1290" y="715" />
+        <di:waypoint x="1290" y="750" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_15_di" bpmnElement="Flow_15">
+        <di:waypoint x="1445" y="785" />
+        <di:waypoint x="1500" y="785" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_16_di" bpmnElement="Flow_16">
+        <di:waypoint x="1600" y="785" />
+        <di:waypoint x="1640" y="785" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_17_di" bpmnElement="Flow_17">
+        <di:waypoint x="1690" y="815" />
+        <di:waypoint x="1690" y="880" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_18_di" bpmnElement="Flow_18">
+        <di:waypoint x="1740" y="915" />
+        <di:waypoint x="1795" y="915" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_19_di" bpmnElement="Flow_19">
+        <di:waypoint x="1820" y="940" />
+        <di:waypoint x="1820" y="960" />
+        <di:waypoint x="1070" y="960" />
+        <di:waypoint x="1070" y="710" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_20_di" bpmnElement="Flow_20">
+        <di:waypoint x="1820" y="890" />
+        <di:waypoint x="1820" y="410" />
+        <di:waypoint x="1900" y="410" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_21_di" bpmnElement="Flow_21">
+        <di:waypoint x="2020" y="410" />
+        <di:waypoint x="2080" y="410" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_22_di" bpmnElement="Flow_22">
+        <di:waypoint x="2180" y="410" />
+        <di:waypoint x="2242" y="410" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_23_di" bpmnElement="Flow_23">
+        <di:waypoint x="2468" y="915" />
+        <di:waypoint x="2530" y="915" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_24_di" bpmnElement="Flow_24">
+        <di:waypoint x="2650" y="915" />
+        <di:waypoint x="2710" y="915" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_25_di" bpmnElement="Flow_25">
+        <di:waypoint x="2830" y="915" />
+        <di:waypoint x="2882" y="915" />
+      </bpmndi:BPMNEdge>
+
+      <!-- Message Flows -->
+      <bpmndi:BPMNEdge id="Flow_RichiestaPreventivo_di" bpmnElement="Flow_RichiestaPreventivo">
+        <di:waypoint x="380" y="210" />
+        <di:waypoint x="380" y="392" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_InvioOfferta_di" bpmnElement="Flow_InvioOfferta">
+        <di:waypoint x="1960" y="370" />
+        <di:waypoint x="1960" y="170" />
+        <di:waypoint x="2100" y="170" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_Conferma_di" bpmnElement="Flow_Conferma">
+        <di:waypoint x="2450" y="210" />
+        <di:waypoint x="2450" y="897" />
+      </bpmndi:BPMNEdge>
+
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  id="Definitions_GestionePreventivi"
+  targetNamespace="http://bpmn.io/schema/bpmn"
+  exporter="bpmn-js (https://demo.bpmn.io)"
+  exporterVersion="18.6.1">
+
+  <!-- COLLABORATION -->
+  <bpmn:collaboration id="Collaboration_GestionePreventivi">
+    <bpmn:participant id="Participant_Azienda" name="Azienda Installatrice" processRef="Process_GestionePreventivo_ASIS" />
+    <bpmn:participant id="Participant_Cliente" name="Cliente" processRef="Process_Cliente" />
+  </bpmn:collaboration>
+
+  <!-- PROCESSO CLIENTE (placeholder) -->
+  <bpmn:process id="Process_Cliente" isExecutable="false" />
+
+  <!-- PROCESSO AS-IS -->
+  <bpmn:process id="Process_GestionePreventivo_ASIS" name="Gestione Preventivo - AS-IS" isExecutable="false">
+
+    <bpmn:laneSet id="LaneSet_ASIS">
+      <bpmn:lane id="Lane_ASIS_Cliente" name="Cliente">
+        <bpmn:flowNodeRef>Start_ASIS</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_ASIS_Commerciale" name="Commerciale">
+        <bpmn:flowNodeRef>Task_ASIS_RegistrazioneRichiesta</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ASIS_QualificaLead</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ASIS_InviaPreventivo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ASIS_RegistroEsito</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_ASIS_UfficioTecnico" name="Ufficio Tecnico">
+        <bpmn:flowNodeRef>Task_ASIS_Sopralluogo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ASIS_PreparaComputo</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_ASIS_Fornitore" name="Fornitore">
+        <bpmn:flowNodeRef>Task_ASIS_OffertaFornitore</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_ASIS_Amministrazione" name="Amministrazione">
+        <bpmn:flowNodeRef>Task_ASIS_DefinisciMargini</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:startEvent id="Start_ASIS" name="Richiesta preventivo ricevuta" />
+    <bpmn:task id="Task_ASIS_RegistrazioneRichiesta" name="Registra richiesta" />
+    <bpmn:task id="Task_ASIS_QualificaLead" name="Qualifica lead" />
+    <bpmn:task id="Task_ASIS_Sopralluogo" name="Sopralluogo in sito" />
+    <bpmn:task id="Task_ASIS_PreparaComputo" name="Prepara computo metrico" />
+    <bpmn:task id="Task_ASIS_OffertaFornitore" name="Richiedi offerta fornitore" />
+    <bpmn:task id="Task_ASIS_DefinisciMargini" name="Definisci margini e condizioni" />
+    <bpmn:task id="Task_ASIS_InviaPreventivo" name="Prepara e invia preventivo" />
+    <bpmn:task id="Task_ASIS_RegistroEsito" name="Registra esito preventivo" />
+    <bpmn:endEvent id="End_ASIS" name="Preventivo chiuso" />
+
+    <bpmn:sequenceFlow id="Flow_ASIS_1" sourceRef="Start_ASIS" targetRef="Task_ASIS_RegistrazioneRichiesta" />
+    <bpmn:sequenceFlow id="Flow_ASIS_2" sourceRef="Task_ASIS_RegistrazioneRichiesta" targetRef="Task_ASIS_QualificaLead" />
+    <bpmn:sequenceFlow id="Flow_ASIS_3" sourceRef="Task_ASIS_QualificaLead" targetRef="Task_ASIS_Sopralluogo" />
+    <bpmn:sequenceFlow id="Flow_ASIS_4" sourceRef="Task_ASIS_Sopralluogo" targetRef="Task_ASIS_PreparaComputo" />
+    <bpmn:sequenceFlow id="Flow_ASIS_5" sourceRef="Task_ASIS_PreparaComputo" targetRef="Task_ASIS_OffertaFornitore" />
+    <bpmn:sequenceFlow id="Flow_ASIS_6" sourceRef="Task_ASIS_OffertaFornitore" targetRef="Task_ASIS_DefinisciMargini" />
+    <bpmn:sequenceFlow id="Flow_ASIS_7" sourceRef="Task_ASIS_DefinisciMargini" targetRef="Task_ASIS_InviaPreventivo" />
+    <bpmn:sequenceFlow id="Flow_ASIS_8" sourceRef="Task_ASIS_InviaPreventivo" targetRef="Task_ASIS_RegistroEsito" />
+    <bpmn:sequenceFlow id="Flow_ASIS_9" sourceRef="Task_ASIS_RegistroEsito" targetRef="End_ASIS" />
+
+  </bpmn:process>
+
+  <!-- PROCESSO TO-BE -->
+  <bpmn:process id="Process_GestionePreventivo_TOBE" name="Gestione Preventivo - TO-BE" isExecutable="false">
+
+    <bpmn:laneSet id="LaneSet_TOBE">
+      <bpmn:lane id="Lane_TOBE_Cliente" name="Cliente">
+        <bpmn:flowNodeRef>Start_TOBE</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_TOBE_Sistema" name="Sistema / Automazioni">
+        <bpmn:flowNodeRef>Task_TOBE_CreaLead</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_TOBE_NotificaCommerciale</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_TOBE_GeneraPreventivo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_TOBE_InviaTraccia</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_TOBE_Commerciale" name="Commerciale">
+        <bpmn:flowNodeRef>Task_TOBE_ValidaRichiesta</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_TOBE_Tecnico" name="Ufficio Tecnico + LLM">
+        <bpmn:flowNodeRef>Task_TOBE_Sopralluogo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_TOBE_ComputoAssistito</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_TOBE_Amministrazione" name="Amministrazione">
+        <bpmn:flowNodeRef>Task_TOBE_RegolePrezzo</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:startEvent id="Start_TOBE" name="Richiesta preventivo (form web)" />
+    <bpmn:task id="Task_TOBE_CreaLead" name="Crea lead nel gestionale" />
+    <bpmn:task id="Task_TOBE_NotificaCommerciale" name="Notifica commerciale" />
+    <bpmn:task id="Task_TOBE_ValidaRichiesta" name="Valida richiesta e pianifica sopralluogo" />
+    <bpmn:task id="Task_TOBE_Sopralluogo" name="Sopralluogo con app" />
+    <bpmn:task id="Task_TOBE_ComputoAssistito" name="Computo metrico assistito da LLM" />
+    <bpmn:task id="Task_TOBE_RegolePrezzo" name="Applica regole di prezzo" />
+    <bpmn:task id="Task_TOBE_GeneraPreventivo" name="Genera PDF preventivo" />
+    <bpmn:task id="Task_TOBE_InviaTraccia" name="Invia al cliente e traccia esito" />
+    <bpmn:endEvent id="End_TOBE" name="Preventivo chiuso (esito registrato)" />
+
+    <bpmn:sequenceFlow id="Flow_TOBE_1" sourceRef="Start_TOBE" targetRef="Task_TOBE_CreaLead" />
+    <bpmn:sequenceFlow id="Flow_TOBE_2" sourceRef="Task_TOBE_CreaLead" targetRef="Task_TOBE_NotificaCommerciale" />
+    <bpmn:sequenceFlow id="Flow_TOBE_3" sourceRef="Task_TOBE_NotificaCommerciale" targetRef="Task_TOBE_ValidaRichiesta" />
+    <bpmn:sequenceFlow id="Flow_TOBE_4" sourceRef="Task_TOBE_ValidaRichiesta" targetRef="Task_TOBE_Sopralluogo" />
+    <bpmn:sequenceFlow id="Flow_TOBE_5" sourceRef="Task_TOBE_Sopralluogo" targetRef="Task_TOBE_ComputoAssistito" />
+    <bpmn:sequenceFlow id="Flow_TOBE_6" sourceRef="Task_TOBE_ComputoAssistito" targetRef="Task_TOBE_RegolePrezzo" />
+    <bpmn:sequenceFlow id="Flow_TOBE_7" sourceRef="Task_TOBE_RegolePrezzo" targetRef="Task_TOBE_GeneraPreventivo" />
+    <bpmn:sequenceFlow id="Flow_TOBE_8" sourceRef="Task_TOBE_GeneraPreventivo" targetRef="Task_TOBE_InviaTraccia" />
+    <bpmn:sequenceFlow id="Flow_TOBE_9" sourceRef="Task_TOBE_InviaTraccia" targetRef="End_TOBE" />
+
+  </bpmn:process>
+
+  <!-- DIAGRAMMA MINIMALE LEGATO ALLA COLLABORATION -->
+  <bpmndi:BPMNDiagram id="BPMNDiagram_GestionePreventivi">
+    <bpmndi:BPMNPlane id="BPMNPlane_GestionePreventivi" bpmnElement="Collaboration_GestionePreventivi">
+      <bpmndi:BPMNShape id="Participant_Azienda_di" bpmnElement="Participant_Azienda" isHorizontal="true">
+        <dc:Bounds x="130" y="70" width="1100" height="400" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_Cliente_di" bpmnElement="Participant_Cliente" isHorizontal="true">
+        <dc:Bounds x="130" y="500" width="1100" height="200" />
+      </bpmndi:BPMNShape>
+      <!-- Il layout dettagliato di lane e task lo puoi rielaborare direttamente nel modeler -->
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+
+</bpmn:definitions>

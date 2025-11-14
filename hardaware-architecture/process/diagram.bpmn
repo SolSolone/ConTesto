@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Definitions_06pslad" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.6.1">
+  <bpmn:collaboration id="Collaboration_14lgzry">
+    <bpmn:participant id="Participant_0uokqk5" name="commerciale" processRef="Process_1arygn2" />
+    <bpmn:participant id="Participant_0tf8u54" name="Cliente" processRef="Process_00sm0x1" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_1arygn2" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_194e2zk">
+      <bpmn:lane id="Lane_198lg03">
+        <bpmn:flowNodeRef>Activity_02mpwjs</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartEvent_1l8olqj</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:task id="Activity_02mpwjs" name="Crea la proposta" />
+    <bpmn:startEvent id="StartEvent_1l8olqj" />
+  </bpmn:process>
+  <bpmn:process id="Process_00sm0x1" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_14lgzry">
+      <bpmndi:BPMNShape id="Participant_0tf8u54_di" bpmnElement="Participant_0tf8u54" isHorizontal="true">
+        <dc:Bounds x="130" y="560" width="1110" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_0uokqk5_di" bpmnElement="Participant_0uokqk5" isHorizontal="true">
+        <dc:Bounds x="130" y="70" width="1110" height="490" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_198lg03_di" bpmnElement="Lane_198lg03" isHorizontal="true">
+        <dc:Bounds x="160" y="70" width="1080" height="490" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02mpwjs_di" bpmnElement="Activity_02mpwjs">
+        <dc:Bounds x="330" y="148" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1l8olqj">
+        <dc:Bounds x="232" y="170" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
